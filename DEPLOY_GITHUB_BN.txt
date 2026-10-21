@@ -1,0 +1,15 @@
+GitHub Pages-এ প্রকাশ করার সংক্ষিপ্ত ধাপ
+
+১) ZIP Extract করুন।
+২) ZIP-এর ভেতরের সব ফাইল/ফোল্ডার GitHub repository-এর root-এ আপলোড করুন। docs ফোল্ডারটি root-এ থাকতে হবে।
+৩) Repository → Settings → Pages খুলুন।
+৪) Build and deployment-এ “Deploy from a branch” নির্বাচন করুন।
+৫) Branch: main এবং Folder: /docs নির্বাচন করে Save চাপুন।
+৬) প্রকাশ শেষ হলে Settings → Pages-এ সাইটের URL দেখা যাবে।
+
+ডেমো লগইন:
+Customer Reference Code: LUCKY2026
+Admin username: portaladmin
+Admin password: Lucky@2026
+
+নিরাপত্তা: এটি static demo। GitHub Pages-এ server-side authentication/database চলে না। Admin credentials ব্রাউজারের JavaScript-এ দেখা সম্ভব; বাস্তব গ্রাহক/পেমেন্ট/পুরস্কার তথ্যের জন্য ব্যবহার করবেন না।
