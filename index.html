@@ -1,84 +1,120 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lucky Portal</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lucky Portal</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;color:#172235;background:radial-gradient(ellipse at center,#267c91,#356d65 48%,#667521)}button,input{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:13px 17px;font-weight:700}.top{display:flex;justify-content:space-between;align-items:center;padding:17px 22px;color:white;background:linear-gradient(100deg,#4b5c1b,#205d72,#4c5d1b)}.brand{display:flex;align-items:center;gap:13px}.icon{width:52px;height:52px;border-radius:16px;background:#ffffff20;border:1px solid #ffffff55;display:grid;place-items:center;font-size:28px}.brand strong{font-size:23px}.brand small{display:block;margin-top:5px;color:#e1ebec}.menu{background:#ffffff20;color:white;border:1px solid #ffffff55;font-size:23px}.container{max-width:760px;padding:22px 15px;margin:18px auto}.card{max-width:550px;margin:18px auto;background:#fffffff2;border-radius:32px;padding:clamp(24px,5vw,38px);box-shadow:0 20px 55px #112c2922}.card h1{font-size:38px;margin:5px 0 12px}.lead{font-size:22px;line-height:1.5;color:#77808a;margin:0 0 32px}.field{margin:22px 0}.field label{display:block;font-weight:bold;margin-bottom:12px;color:#414b5a}.field input{width:100%;border:2px solid #e5e8eb;border-radius:22px;padding:19px;font-size:20px}.primary{width:100%;background:linear-gradient(100deg,#ff405e,#ff6800);color:white;font-size:23px;padding:21px;border-radius:22px;box-shadow:0 5px 0 #a92c35}.policy,.notice{font-size:12px;line-height:1.55;text-align:center;color:#66717b;margin:26px 0 0}.backrow{max-width:590px;margin:14px auto 0}.backbtn{background:#ffffffeb;color:#203744;border:1px solid #ffffff80;padding:12px 18px;border-radius:12px;font-weight:700}.ticketbox{min-height:350px;padding:clamp(18px,5vw,38px);display:grid;place-items:center;background:#ffffff20;border:1px solid #ffffff45;border-radius:32px}.ticket{position:relative;width:100%;max-width:590px;cursor:pointer}.ticket img,.resultimg{width:100%;max-height:360px;object-fit:contain;border-radius:16px;background:#fff}.code{position:absolute;right:9%;top:6%;font-size:clamp(25px,6vw,39px);font-weight:900;background:#fffffff0;color:#111;border-radius:5px;padding:2px 9px}.hint{text-align:center;color:white;font-size:14px}.hidden{display:none!important}.win{position:fixed;top:12%;left:50%;transform:translateX(-50%);background:white;color:#12814a;font-size:clamp(23px,6vw,42px);font-weight:900;padding:17px 25px;border-radius:18px;white-space:nowrap;max-width:95vw;overflow:hidden;animation:fade 3s forwards;box-shadow:0 12px 40px #0004}@keyframes fade{0%{opacity:0;top:20%}15%,75%{opacity:1;top:10%}100%{opacity:0;top:4%}}.overlay{position:fixed;inset:0;background:#071321b0;display:grid;place-items:center;padding:14px;z-index:9}.admin{background:white;border-radius:20px;padding:23px;width:min(600px,100%);max-height:92vh;overflow:auto}.admin h2{margin-top:0}.admin label{display:block;font-weight:bold;font-size:14px;margin:13px 0 6px}.admin input{width:100%;padding:12px;border:1px solid #ccd5df;border-radius:9px}.admin .primary{font-size:16px;padding:14px;box-shadow:none}.actions{display:flex;gap:10px;margin-top:15px}.actions button{flex:1}.secondary{background:#edf1f6}.error{color:#b42318;font-size:13px}.section{font-size:12px;color:#687386;letter-spacing:1px;border-bottom:1px solid #e3e8ef;margin-top:22px;padding-bottom:6px}.help{font-size:12px;line-height:1.5;color:#687386}@media(max-width:480px){.top{padding:13px}.brand strong{font-size:19px}.brand small{font-size:13px}.container{padding:14px 12px}.card{border-radius:28px}.ticketbox{min-height:280px}}
-</style></head><body>
-<header class="top"><div class="brand"><div class="icon">✦</div><div><strong id="brandTitle">Lucky Portal</strong><small id="brandSub">Ticket information service</small></div></div><button class="menu" onclick="openAdmin()">⋮</button></header>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;color:#172235;background:radial-gradient(ellipse at center,#267c91,#356d65 48%,#667521)}button,input{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:13px 17px;font-weight:700}.top{display:flex;justify-content:space-between;align-items:center;padding:17px 22px;color:white;background:linear-gradient(100deg,#4b5c1b,#205d72,#4c5d1b)}.brand{display:flex;align-items:center;gap:13px}.icon{width:52px;height:52px;border-radius:16px;background:#ffffff20;border:1px solid #ffffff55;display:grid;place-items:center;font-size:28px}.brand strong{font-size:23px}.brand small{display:block;margin-top:5px;color:#e1ebec}.menu{background:#ffffff20;color:white;border:1px solid #ffffff55;font-size:23px}.container{max-width:760px;padding:22px 15px;margin:18px auto}.card{max-width:550px;margin:18px auto;background:#fffffff2;border-radius:32px;padding:clamp(24px,5vw,38px);box-shadow:0 20px 55px #112c2922}.card h1{font-size:38px;margin:5px 0 12px}.lead{font-size:22px;line-height:1.5;color:#77808a;margin:0 0 32px}.field{margin:22px 0}.field label{display:block;font-weight:bold;margin-bottom:12px;color:#414b5a}.field input{width:100%;border:2px solid #e5e8eb;border-radius:22px;padding:19px;font-size:20px}.primary{width:100%;background:linear-gradient(100deg,#ff405e,#ff6800);color:white;font-size:23px;padding:21px;border-radius:22px;box-shadow:0 5px 0 #a92c35}.policy,.notice{font-size:12px;line-height:1.55;text-align:center;color:#66717b;margin:26px 0 0}.backrow{max-width:590px;margin:14px auto 0}.backbtn{background:#ffffffeb;color:#203744;border:1px solid #ffffff80;padding:12px 18px;border-radius:12px;font-weight:700}.ticketbox{min-height:350px;padding:clamp(18px,5vw,38px);display:grid;place-items:center;background:#ffffff20;border:1px solid #ffffff45;border-radius:32px}.ticket{position:relative;width:100%;max-width:590px;cursor:pointer}.ticket img,.resultimg{width:100%;max-height:360px;object-fit:contain;border-radius:16px;background:#fff}.code{position:absolute;right:9%;top:6%;z-index:2;min-width:2.4em;text-align:center;font-size:clamp(25px,6vw,39px);font-weight:900;background:#fffffff0;color:#111;border:2px solid #222;border-radius:5px;padding:2px 9px;cursor:pointer;user-select:none}.code:focus-visible{outline:3px solid #ff6800;outline-offset:3px}.hint{text-align:center;color:white;font-size:14px}.hidden{display:none!important}.win{position:fixed;top:12%;left:50%;transform:translateX(-50%);background:white;color:#12814a;font-size:clamp(23px,6vw,42px);font-weight:900;padding:17px 25px;border-radius:18px;white-space:normal;text-align:center;max-width:95vw;animation:fade 3s forwards;box-shadow:0 12px 40px #0004;z-index:20}@keyframes fade{0%{opacity:0;top:20%}15%,75%{opacity:1;top:10%}100%{opacity:0;top:4%}}.overlay{position:fixed;inset:0;background:#071321b0;display:grid;place-items:center;padding:14px;z-index:9}.admin{background:white;border-radius:20px;padding:23px;width:min(600px,100%);max-height:92vh;overflow:auto}.admin h2{margin-top:0}.admin label{display:block;font-weight:bold;font-size:14px;margin:13px 0 6px}.admin input{width:100%;padding:12px;border:1px solid #ccd5df;border-radius:9px}.admin .primary{font-size:16px;padding:14px;box-shadow:none}.actions{display:flex;gap:10px;margin-top:15px}.actions button{flex:1}.secondary{background:#edf1f6}.error{color:#b42318;font-size:13px}.section{font-size:12px;color:#687386;letter-spacing:1px;border-bottom:1px solid #e3e8ef;margin-top:22px;padding-bottom:6px}.help{font-size:12px;line-height:1.5;color:#687386}.status{font-size:12px;line-height:1.5;color:#687386;margin-top:12px}@media(max-width:480px){.top{padding:13px}.brand strong{font-size:19px}.brand small{font-size:13px}.container{padding:14px 12px}.card{border-radius:28px}.ticketbox{min-height:280px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand"><div class="icon">✦</div><div><strong id="brandTitle">Lucky Portal</strong><small id="brandSub">Ticket information service</small></div></div><button class="menu" type="button" onclick="openAdmin()" aria-label="Open administrator panel">⋮</button></header>
 <main class="container">
-<section id="loginPage" class="card"><h1>Sign in</h1><p class="lead">Enter your reference code to continue</p><form id="customerForm"><div class="field"><label for="ref">Reference Code</label><input id="ref" placeholder="Enter your reference code" required autocomplete="off"></div><button class="primary">Continue</button></form><div id="customerError" class="error"></div><p class="policy">Independent entertainment portal. Not affiliated with any government or official lottery operator. Images and outcomes are illustrative; no prize claim is verified here.</p></section>
-<section id="page2" class="hidden"><div class="ticketbox"><div class="ticket" id="ticketWrap"><img id="ticketImg" alt="Ticket image"><span id="ticketCode" class="code hidden" role="button" tabindex="0" aria-label="Open next page"></span></div></div><div class="backrow"><button type="button" class="backbtn" onclick="backToLogin()">← Back</button></div><p class="hint" id="codeHint">Tap the four-digit code to continue</p><p class="notice">Independent entertainment portal · Sample ticket information only</p></section>
-<section id="page3" class="hidden"><div class="ticketbox"><img id="resultImg" class="resultimg" alt="Result image"></div><p class="hint" id="resultCaption">Result information</p><p class="notice">This page does not confirm a real prize or entitlement.</p></section>
+<section id="loginPage" class="card"><h1>Sign in</h1><p class="lead">Enter your reference code to continue</p><form id="customerForm"><div class="field"><label for="ref">Reference Code</label><input id="ref" placeholder="Enter your reference code" required autocomplete="off"></div><button class="primary">Continue</button></form><div id="customerError" class="error" role="alert"></div><p class="policy">Independent entertainment portal. Not affiliated with any government or official lottery operator. Images and outcomes are illustrative; no prize claim is verified here.</p></section>
+<section id="page2" class="hidden"><div class="ticketbox"><div class="ticket" id="ticketWrap"><img id="ticketImg" alt="Sample ticket image"><span id="ticketCode" class="code hidden" role="button" tabindex="0" aria-label="Open illustrative result page" aria-hidden="true"></span></div></div><div class="backrow"><button type="button" class="backbtn" onclick="backToLogin()">← Back</button></div><p class="hint" id="codeHint">Ticket code not configured</p><p class="notice">Independent entertainment portal · Sample ticket information only</p></section>
+<section id="page3" class="hidden"><div class="ticketbox"><img id="resultImg" class="resultimg" alt="Illustrative result image"></div><p class="hint" id="resultCaption">Result information</p><div class="backrow"><button type="button" class="backbtn" onclick="backToTicket()">← Back</button></div><p class="notice">This page does not confirm a real prize or entitlement.</p></section>
 </main>
-<div id="overlay" class="overlay hidden"><div class="admin"><h2>Administrator access</h2><p class="help">Admin credentials are not shown on customer pages.</p><form id="adminLogin"><label>Username</label><input id="adminUserLogin" required><label>Password</label><input id="adminPassLogin" type="password" required><p id="adminError" class="error"></p><button class="primary">Sign in</button></form>
-<div id="settings" class="hidden">
-<div class="section">Portal appearance</div><label>Portal title</label><input id="titleIn"><label>Subtitle</label><input id="subIn">
-<div class="section">Customer access and ticket</div><label>Customer reference code</label><input id="refIn"><label>Four-digit ticket code</label><input id="codeIn" maxlength="4" inputmode="numeric"><label>Three-second message</label><input id="winIn"><label>Result page caption</label><input id="captionIn">
-<div class="section">Upload images</div><label>Second-page ticket image</label><input id="ticketUpload" type="file" accept="image/*"><label>Third-page image</label><input id="resultUpload" type="file" accept="image/*">
-<div class="section">Change admin login</div><label>New username</label><input id="newUser"><label>New password</label><input id="newPass" type="password">
-<div class="actions"><button class="primary" onclick="saveSettings(event)">Save changes</button><button type="button" class="secondary" onclick="closeAdmin()">Close</button></div><p class="help">Browser-only demo: changes last for this session. Do not use real customer information. A live public site needs secure server-side authentication and storage.</p></div>
-<div id="cancelRow" class="actions"><button class="secondary" onclick="closeAdmin()">Cancel</button></div></div></div>
+<div id="overlay" class="overlay hidden"><div class="admin"><h2>Administrator access</h2><p class="help">Use your Supabase Auth account. The username is an additional label; authentication is checked by Supabase.</p>
+<form id="adminLogin"><label for="adminUserLogin">Username</label><input id="adminUserLogin" autocomplete="username" required><label for="adminPassLogin">Password</label><input id="adminPassLogin" type="password" autocomplete="current-password" required><p id="adminError" class="error" role="alert"></p><button class="primary">Sign in</button></form>
+<div id="settings" class="hidden"><div class="section">Portal appearance</div><label for="titleIn">Portal title</label><input id="titleIn"><label for="subIn">Subtitle</label><input id="subIn">
+<div class="section">Customer access and ticket</div><label for="refIn">Customer reference code</label><input id="refIn" autocomplete="off"><label for="codeIn">Four-digit ticket code (optional)</label><input id="codeIn" maxlength="4" inputmode="numeric" pattern="[0-9]{0,4}" autocomplete="off"><p class="help">Leave this field empty and save to keep the code area on the ticket image blank. Enter exactly four digits and save to show a clickable code.</p><label for="winIn">Three-second message</label><input id="winIn"><label for="captionIn">Result page caption</label><input id="captionIn">
+<div class="section">Upload images (maximum 5 MB each)</div><label for="ticketUpload">Second-page ticket image</label><input id="ticketUpload" type="file" accept="image/*"><label for="resultUpload">Third-page image</label><input id="resultUpload" type="file" accept="image/*">
+<div class="actions"><button class="primary" id="saveButton" type="button" onclick="saveSettings(event)">Save changes</button><button type="button" class="secondary" onclick="signOutAdmin()">Sign out</button><button type="button" class="secondary" onclick="closeAdmin()">Close</button></div><p id="saveStatus" class="status" role="status"></p><p class="help">Changes are shared through Supabase. Uploaded images are public portal artwork. Do not upload private information.</p></div>
+<div id="cancelRow" class="actions"><button class="secondary" type="button" onclick="closeAdmin()">Cancel</button></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+'use strict';
 const SUPABASE_URL = 'https://jvmjdisjeitrulhtaiya.supabase.co';
-
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_k-K9qnWPlppG1A94r3lx-g_I_ddtZ6M';
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-console.log("Supabase library:", typeof window.supabase);
-console.log("Supabase client:", typeof supabaseClient);
-supabaseClient
-  .from('portal_settings')
-  .select('reference_code')
-  .limit(1)
-  .then(({ data, error }) => {
-    if (error) {
-      console.error('Supabase connection test failed:', error.message);
-    } else {
-      console.log('Supabase database test successful:', data);
-    }
-  });
-const defaults={user:'portaladmin',ref:'LUCKY2026',code:'',win:'Congratulations, You Win!',caption:'Result information',title:'Lucky Portal',sub:'Ticket information service'};let c={...defaults};
+const ADMIN_USERNAME = 'portaladmin';
 const ADMIN_EMAIL = 'abarahasanayan@gmail.com';
-function openAdmin(){overlay.classList.remove('hidden')}function closeAdmin(){overlay.classList.add('hidden');adminLogin.classList.remove('hidden');settings.classList.add('hidden');cancelRow.classList.remove('hidden');adminPassLogin.value='';adminUserLogin.value='';adminError.textContent=''}
-adminLogin.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  adminError.textContent = '';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const defaults = {ref:'LUCKY2026',code:'',win:'Sample result information',caption:'Illustrative result information',title:'Lucky Portal',sub:'Ticket information service'};
+let c = {...defaults};
+let settingsRowId = null;
+let portalChannel = null;
+let isApplyingRemote = false;
 
-  if (adminUserLogin.value.trim() !== 'portaladmin') {
-    adminError.textContent = 'Incorrect username or password.';
-    return;
-  }
-
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: ADMIN_EMAIL,
-    password: adminPassLogin.value
-  });
-
-  if (error || !data.user) {
-    adminError.textContent = 'Incorrect username or password.';
-    return;
-  }
-
-  adminLogin.classList.add('hidden');
-  settings.classList.remove('hidden');
-  cancelRow.classList.add('hidden');
-
-  titleIn.value = c.title;
-  subIn.value = c.sub;
-  refIn.value = c.ref;
-  codeIn.value = c.code;
-  winIn.value = c.win;
-  captionIn.value = c.caption;
+function openAdmin(){overlay.classList.remove('hidden');}
+function closeAdmin(){overlay.classList.add('hidden');adminLogin.classList.remove('hidden');settings.classList.add('hidden');cancelRow.classList.remove('hidden');adminPassLogin.value='';adminUserLogin.value='';adminError.textContent='';saveStatus.textContent='';}
+function showError(message){adminError.textContent=message;}
+adminLogin.addEventListener('submit', async (e)=>{
+  e.preventDefault(); showError('');
+  if(adminUserLogin.value.trim() !== ADMIN_USERNAME){showError('Incorrect username or password.');return;}
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email:ADMIN_EMAIL,password:adminPassLogin.value});
+  if(error || !data.user){showError('Sign-in failed. Check the username and Supabase account password.');return;}
+  const {data:allowedRow,error:rowError}=await supabaseClient.from('portal_settings').select('id').limit(1).maybeSingle();
+  if(rowError || !allowedRow){await supabaseClient.auth.signOut();showError('Could not load portal settings. Check the database row and access policies.');return;}
+  settingsRowId=allowedRow.id;
+  adminLogin.classList.add('hidden');settings.classList.remove('hidden');cancelRow.classList.add('hidden');
+  await loadPortalSettings();
 });
-function setImg(input,img){let f=input.files&&input.files[0];if(f){let r=new FileReader();r.onload=()=>img.src=r.result;r.readAsDataURL(f)}}ticketUpload.addEventListener('change',()=>setImg(ticketUpload,ticketImg));resultUpload.addEventListener('change',()=>setImg(resultUpload,resultImg));
-function saveSettings(e){e.preventDefault();c.title=titleIn.value.trim()||defaults.title;c.sub=subIn.value.trim()||defaults.sub;c.ref=refIn.value.trim();c.code=codeIn.value.replace(/\D/g,'').slice(0,4);c.win=winIn.value.trim()||defaults.win;c.caption=captionIn.value.trim();if(newUser.value.trim())c.user=newUser.value.trim();if(newPass.value)c.pass=newPass.value;brandTitle.textContent=c.title;brandSub.textContent=c.sub;syncCode();resultCaption.textContent=c.caption;closeAdmin();alert('Settings updated for this browser session.')}
-customerForm.addEventListener('submit',e=>{e.preventDefault();if(ref.value.trim()!==c.ref){customerError.textContent='Reference code not recognized. Please check and try again.';return}customerError.textContent='';loginPage.classList.add('hidden');page2.classList.remove('hidden')});
+async function signOutAdmin(){await supabaseClient.auth.signOut();closeAdmin();}
+function placeholder(t){const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420"><rect width="900" height="420" rx="24" fill="#e4eeee"/><rect x="25" y="25" width="850" height="370" rx="18" fill="none" stroke="#a2bdbd" stroke-width="3"/><text x="450" y="190" font-family="Arial" font-size="36" text-anchor="middle" fill="#315b68">${t}</text><text x="450" y="240" font-family="Arial" font-size="21" text-anchor="middle" fill="#607981">Upload an image in Admin Panel</text></svg>`;return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);}
+function setImg(input,img){const file=input.files&&input.files[0];if(file){const reader=new FileReader();reader.onload=()=>img.src=reader.result;reader.readAsDataURL(file);}}
+ticketUpload.addEventListener('change',()=>setImg(ticketUpload,ticketImg));
+resultUpload.addEventListener('change',()=>setImg(resultUpload,resultImg));
+async function uploadPortalImage(input,pathPrefix){
+  const file=input.files&&input.files[0];if(!file)return null;
+  if(!file.type.startsWith('image/'))throw new Error('Please choose an image file.');
+  if(file.size>5*1024*1024)throw new Error('Each image must be 5 MB or smaller.');
+  const ext=(file.name.split('.').pop()||'jpg').replace(/[^a-zA-Z0-9]/g,'').toLowerCase()||'jpg';
+  const path=pathPrefix+'/'+Date.now()+'-'+Math.random().toString(36).slice(2)+'.'+ext;
+  const {error}=await supabaseClient.storage.from('portal-images').upload(path,file,{upsert:false,contentType:file.type});
+  if(error)throw error;
+  const {data}=supabaseClient.storage.from('portal-images').getPublicUrl(path);return data.publicUrl;
+}
+function applySettings(row){
+  if(!row)return;
+  settingsRowId=row.id??settingsRowId;
+  c.ref=row.reference_code||defaults.ref;c.code=String(row.ticket_code??'').trim();c.sub=row.banner_text||defaults.sub;
+  c.title=row.portal_title||defaults.title;c.caption=row.page3_title||defaults.caption;c.win=row.win_message||defaults.win;
+  brandTitle.textContent=c.title;brandSub.textContent=c.sub;ref.value=c.ref;titleIn.value=c.title;subIn.value=c.sub;refIn.value=c.ref;codeIn.value=c.code;winIn.value=c.win;captionIn.value=c.caption;resultCaption.textContent=c.caption;
+  if(row.ticket_image_url)ticketImg.src=row.ticket_image_url;
+  if(row.result_image_url)resultImg.src=row.result_image_url;
+  syncCode();
+}
+async function loadPortalSettings(){
+  const {data,error}=await supabaseClient.from('portal_settings').select('*').order('id',{ascending:true}).limit(1).maybeSingle();
+  if(error){console.error('Load settings failed:',error.message);saveStatus.textContent='Could not load shared settings: '+error.message;return;}
+  if(data){applySettings(data);}
+}
+async function saveSettings(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  const button=document.getElementById('saveButton');const oldText=button.textContent;button.disabled=true;button.textContent='Saving…';saveStatus.textContent='';
+  try{
+    if(!settingsRowId){const {data,error}=await supabaseClient.from('portal_settings').select('id').order('id',{ascending:true}).limit(1).maybeSingle();if(error)throw error;if(!data)throw new Error('No row exists in portal_settings.');settingsRowId=data.id;}
+    const next={reference_code:refIn.value.trim(),ticket_code:codeIn.value.replace(/\D/g,'').slice(0,4),banner_text:subIn.value.trim()||defaults.sub,page3_title:captionIn.value.trim()||defaults.caption,updated_at:new Date().toISOString()};
+    if(!next.reference_code)throw new Error('Reference Code cannot be empty.');
+    if(codeIn.value.trim()&&!/^\d{4}$/.test(next.ticket_code))throw new Error('Ticket Code must contain exactly four digits.');
+    // These columns are added by the accompanying SQL setup if they do not already exist.
+    next.portal_title=titleIn.value.trim()||defaults.title;next.win_message=winIn.value.trim()||defaults.win;
+    const ticketUrl=await uploadPortalImage(ticketUpload,'ticket');const resultUrl=await uploadPortalImage(resultUpload,'result');
+    if(ticketUrl)next.ticket_image_url=ticketUrl;if(resultUrl)next.result_image_url=resultUrl;
+    const {data,error}=await supabaseClient.from('portal_settings').update(next).eq('id',settingsRowId).select().single();
+    if(error)throw error;if(!data)throw new Error('No settings row was updated.');
+    applySettings(data);ticketUpload.value='';resultUpload.value='';saveStatus.textContent='Saved successfully. Other visitors should receive the updated settings.';
+  }catch(err){console.error('Save settings failed:',err);saveStatus.textContent='Could not save: '+(err.message||'Unknown error');}
+  finally{button.disabled=false;button.textContent=oldText;}
+}
+customerForm.addEventListener('submit',(e)=>{e.preventDefault();if(ref.value.trim()!==c.ref){customerError.textContent='Reference code not recognized. Please check and try again.';return;}customerError.textContent='';loginPage.classList.add('hidden');page3.classList.add('hidden');page2.classList.remove('hidden');});
 function backToLogin(){page2.classList.add('hidden');loginPage.classList.remove('hidden');customerError.textContent='';}
-function showResult(){if(!/^\d{4}$/.test(c.code))return;page2.classList.add('hidden');page3.classList.remove('hidden');let n=document.createElement('div');n.className='win';n.textContent=c.win;document.body.appendChild(n);setTimeout(()=>n.remove(),3000)}
-ticketCode.addEventListener('click',showResult);
-ticketCode.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showResult()}});
-function syncCode(){const validCode=/^\d{4}$/.test(c.code);ticketCode.textContent=validCode?c.code:'';ticketCode.classList.toggle('hidden',!validCode);codeHint.classList.toggle('hidden',!validCode)}
-function placeholder(t){let s=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420"><rect width="900" height="420" rx="24" fill="#e4eeee"/><rect x="25" y="25" width="850" height="370" rx="18" fill="none" stroke="#a2bdbd" stroke-width="3"/><text x="450" y="190" font-family="Arial" font-size="36" text-anchor="middle" fill="#315b68">${t}</text><text x="450" y="240" font-family="Arial" font-size="21" text-anchor="middle" fill="#607981">Upload an image in Admin Panel</text></svg>`;return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)}ticketImg.src=placeholder('Ticket image');resultImg.src=placeholder('Result image');syncCode();
-</script></body></html>
+function backToTicket(){page3.classList.add('hidden');page2.classList.remove('hidden');}
+function showResult(){if(!/^\d{4}$/.test(c.code))return;page2.classList.add('hidden');page3.classList.remove('hidden');const n=document.createElement('div');n.className='win';n.textContent=c.win;document.body.appendChild(n);setTimeout(()=>n.remove(),3000);}
+ticketCode.addEventListener('click',showResult);ticketCode.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showResult();}});
+function syncCode(){
+  // Only show the clickable code badge when the admin has saved exactly four digits.
+  const savedCode=String(c.code??'').trim();
+  const valid=/^\d{4}$/.test(savedCode);
+  ticketCode.textContent=valid?savedCode:'';
+  ticketCode.classList.toggle('hidden',!valid);
+  ticketCode.setAttribute('aria-hidden',String(!valid));
+  ticketCode.setAttribute('tabindex',valid?'0':'-1');
+  ticketCode.setAttribute('aria-label',valid?'Open illustrative result page':'');
+  codeHint.classList.toggle('hidden',valid);
+}
+async function startRealtime(){if(portalChannel)await supabaseClient.removeChannel(portalChannel);portalChannel=supabaseClient.channel('portal-settings-live').on('postgres_changes',{event:'*',schema:'public',table:'portal_settings'},(payload)=>{if(payload.new){applySettings(payload.new);}}).subscribe((status)=>console.log('Realtime status:',status));}
+ticketImg.src=placeholder('Ticket image');resultImg.src=placeholder('Result image');syncCode();
+loadPortalSettings();startRealtime();
+</script>
+</body></html>
