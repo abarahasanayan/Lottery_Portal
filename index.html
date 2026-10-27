@@ -39,9 +39,39 @@ supabaseClient
       console.log('Supabase database test successful:', data);
     }
   });
-const defaults={user:'portaladmin',pass:'Lucky@2026',ref:'LUCKY2026',code:'',win:'Congratulations, You Win!',caption:'Result information',title:'Lucky Portal',sub:'Ticket information service'};let c={...defaults};
+const defaults={user:'portaladmin',ref:'LUCKY2026',code:'',win:'Congratulations, You Win!',caption:'Result information',title:'Lucky Portal',sub:'Ticket information service'};let c={...defaults};
+const ADMIN_EMAIL = 'abarahasanayan@gmail.com';
 function openAdmin(){overlay.classList.remove('hidden')}function closeAdmin(){overlay.classList.add('hidden');adminLogin.classList.remove('hidden');settings.classList.add('hidden');cancelRow.classList.remove('hidden');adminPassLogin.value='';adminUserLogin.value='';adminError.textContent=''}
-adminLogin.addEventListener('submit',e=>{e.preventDefault();if(adminUserLogin.value===c.user&&adminPassLogin.value===c.pass){adminLogin.classList.add('hidden');settings.classList.remove('hidden');cancelRow.classList.add('hidden');titleIn.value=c.title;subIn.value=c.sub;refIn.value=c.ref;codeIn.value=c.code;winIn.value=c.win;captionIn.value=c.caption}else adminError.textContent='Incorrect username or password.'});
+adminLogin.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  adminError.textContent = '';
+
+  if (adminUserLogin.value.trim() !== 'portaladmin') {
+    adminError.textContent = 'Incorrect username or password.';
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: ADMIN_EMAIL,
+    password: adminPassLogin.value
+  });
+
+  if (error || !data.user) {
+    adminError.textContent = 'Incorrect username or password.';
+    return;
+  }
+
+  adminLogin.classList.add('hidden');
+  settings.classList.remove('hidden');
+  cancelRow.classList.add('hidden');
+
+  titleIn.value = c.title;
+  subIn.value = c.sub;
+  refIn.value = c.ref;
+  codeIn.value = c.code;
+  winIn.value = c.win;
+  captionIn.value = c.caption;
+});
 function setImg(input,img){let f=input.files&&input.files[0];if(f){let r=new FileReader();r.onload=()=>img.src=r.result;r.readAsDataURL(f)}}ticketUpload.addEventListener('change',()=>setImg(ticketUpload,ticketImg));resultUpload.addEventListener('change',()=>setImg(resultUpload,resultImg));
 function saveSettings(e){e.preventDefault();c.title=titleIn.value.trim()||defaults.title;c.sub=subIn.value.trim()||defaults.sub;c.ref=refIn.value.trim();c.code=codeIn.value.replace(/\D/g,'').slice(0,4);c.win=winIn.value.trim()||defaults.win;c.caption=captionIn.value.trim();if(newUser.value.trim())c.user=newUser.value.trim();if(newPass.value)c.pass=newPass.value;brandTitle.textContent=c.title;brandSub.textContent=c.sub;syncCode();resultCaption.textContent=c.caption;closeAdmin();alert('Settings updated for this browser session.')}
 customerForm.addEventListener('submit',e=>{e.preventDefault();if(ref.value.trim()!==c.ref){customerError.textContent='Reference code not recognized. Please check and try again.';return}customerError.textContent='';loginPage.classList.add('hidden');page2.classList.remove('hidden')});
