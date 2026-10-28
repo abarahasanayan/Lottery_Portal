@@ -69,7 +69,7 @@ function applySettings(row){
   settingsRowId=row.id??settingsRowId;
   c.ref=row.reference_code||defaults.ref;c.code=String(row.ticket_code??'').trim();c.sub=row.banner_text||defaults.sub;
   c.title=row.portal_title||defaults.title;c.caption=row.page3_title||defaults.caption;c.win=row.win_message||defaults.win;
-  brandTitle.textContent=c.title;brandSub.textContent=c.sub;ref.value=c.ref;titleIn.value=c.title;subIn.value=c.sub;refIn.value=c.ref;codeIn.value=c.code;winIn.value=c.win;captionIn.value=c.caption;resultCaption.textContent=c.caption;
+  brandTitle.textContent=c.title;brandSub.textContent=c.sub;ref.value = "";titleIn.value=c.title;subIn.value=c.sub;refIn.value=c.ref;codeIn.value=c.code;winIn.value=c.win;captionIn.value=c.caption;resultCaption.textContent=c.caption;
   if(row.ticket_image_url)ticketImg.src=row.ticket_image_url;
   if(row.result_image_url)resultImg.src=row.result_image_url;
   syncCode();
