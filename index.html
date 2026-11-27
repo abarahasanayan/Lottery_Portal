@@ -77,7 +77,10 @@
 <form id="adminLogin"><label for="adminUserLogin">Username</label><input id="adminUserLogin" autocomplete="username" required><label for="adminPassLogin">Password</label><input id="adminPassLogin" type="password" autocomplete="current-password" required><p id="adminError" class="error" role="alert"></p><button class="primary">Sign in</button></form>
 <div id="settings" class="hidden"><div class="section">Portal appearance</div><label for="titleIn">Portal title</label><input id="titleIn"><label for="subIn">Subtitle</label><input id="subIn">
 <div class="section">Customer access and ticket</div><label for="refIn">Customer reference code</label><input id="refIn" autocomplete="off"><label for="codeIn">Four-digit ticket code (optional)</label><input id="codeIn" maxlength="4" inputmode="numeric" pattern="[0-9]{0,4}" autocomplete="off"><p class="help">Leave this field empty and save to keep the code area on the ticket image blank. Enter exactly four digits and save to show a clickable code.</p><label for="winIn">Three-second message</label><input id="winIn"><label for="captionIn">Result page caption</label><input id="captionIn">
-<div class="section">Upload images (maximum 5 MB each)</div><label for="ticketUpload">Second-page ticket image</label><input id="ticketUpload" type="file" accept="image/*"><label for="resultUpload">Third-page image</label><input id="resultUpload" type="file" accept="image/*">
+<div class="section">Upload images (maximum 5 MB each)</div>
+<label for="ticketUpload">Second-page ticket image</label><input id="ticketUpload" type="file" accept="image/*">
+<label for="resultUpload">Third-page image</label><input id="resultUpload" type="file" accept="image/*">
+<p class="help">When you upload a replacement image and save, the previous image is automatically deleted from Supabase Storage.</p>
 <div class="actions"><button class="primary" id="saveButton" type="button" onclick="saveSettings(event)">Save changes</button><button type="button" class="secondary" onclick="signOutAdmin()">Sign out</button><button type="button" class="secondary" onclick="closeAdmin()">Close</button></div><p id="saveStatus" class="status" role="status"></p><p class="help">Changes are shared through Supabase. Uploaded images are public portal artwork. Do not upload private information.</p></div>
 <div id="cancelRow" class="actions"><button class="secondary" type="button" onclick="closeAdmin()">Cancel</button></div></div></div>
 <div id="starfallLayer" aria-hidden="true"></div>
@@ -94,6 +97,7 @@ let c = {...defaults};
 let settingsRowId = null;
 let portalChannel = null;
 let isApplyingRemote = false;
+let currentSettings = null;
 
 function openAdmin(){overlay.classList.remove('hidden');}
 function closeAdmin(){overlay.classList.add('hidden');adminLogin.classList.remove('hidden');settings.classList.add('hidden');cancelRow.classList.remove('hidden');adminPassLogin.value='';adminUserLogin.value='';adminError.textContent='';saveStatus.textContent='';}
@@ -126,13 +130,23 @@ async function uploadPortalImage(input,pathPrefix){
 }
 function applySettings(row){
   if(!row)return;
+  currentSettings=row;
   settingsRowId=row.id??settingsRowId;
   c.ref=row.reference_code||defaults.ref;c.code=String(row.ticket_code??'').trim();c.sub=row.banner_text||defaults.sub;
   c.title=row.portal_title||defaults.title;c.caption=row.page3_title||defaults.caption;c.win=row.win_message||defaults.win;
   brandTitle.textContent=c.title;brandSub.textContent=c.sub;ref.value = "";titleIn.value=c.title;subIn.value=c.sub;refIn.value=c.ref;codeIn.value=c.code;winIn.value=c.win;captionIn.value=c.caption;resultCaption.textContent=c.caption;
-  if(row.ticket_image_url)ticketImg.src=row.ticket_image_url;
-  if(row.result_image_url)resultImg.src=row.result_image_url;
+  ticketImg.src=row.ticket_image_url||placeholder('Ticket image');
+  resultImg.src=row.result_image_url||placeholder('Result image');
   syncCode();
+}
+function storagePathFromPublicUrl(url){
+  if(!url)return null;
+  const marker='/storage/v1/object/public/portal-images/';
+  const expectedPrefix=SUPABASE_URL+marker;
+  if(!url.startsWith(expectedPrefix))return null;
+  const path=decodeURIComponent(url.slice(expectedPrefix.length));
+  if(!path || path.split('/').some(part=>part==='..'))return null;
+  return path;
 }
 async function loadPortalSettings(){
   const {data,error}=await supabaseClient.from('portal_settings').select('*').order('id',{ascending:true}).limit(1).maybeSingle();
@@ -142,19 +156,47 @@ async function loadPortalSettings(){
 async function saveSettings(e){
   if(e&&e.preventDefault)e.preventDefault();
   const button=document.getElementById('saveButton');const oldText=button.textContent;button.disabled=true;button.textContent='Saving…';saveStatus.textContent='';
+  const previous=currentSettings||{};
+  const uploadedPaths=[];
   try{
     if(!settingsRowId){const {data,error}=await supabaseClient.from('portal_settings').select('id').order('id',{ascending:true}).limit(1).maybeSingle();if(error)throw error;if(!data)throw new Error('No row exists in portal_settings.');settingsRowId=data.id;}
     const next={reference_code:refIn.value.trim(),ticket_code:codeIn.value.replace(/\D/g,'').slice(0,4),banner_text:subIn.value.trim()||defaults.sub,page3_title:captionIn.value.trim()||defaults.caption,updated_at:new Date().toISOString()};
     if(!next.reference_code)throw new Error('Reference Code cannot be empty.');
     if(codeIn.value.trim()&&!/^\d{4}$/.test(next.ticket_code))throw new Error('Ticket Code must contain exactly four digits.');
-    // These columns are added by the accompanying SQL setup if they do not already exist.
     next.portal_title=titleIn.value.trim()||defaults.title;next.win_message=winIn.value.trim()||defaults.win;
-    const ticketUrl=await uploadPortalImage(ticketUpload,'ticket');const resultUrl=await uploadPortalImage(resultUpload,'result');
-    if(ticketUrl)next.ticket_image_url=ticketUrl;if(resultUrl)next.result_image_url=resultUrl;
+
+    const ticketFile=ticketUpload.files&&ticketUpload.files[0];
+    const resultFile=resultUpload.files&&resultUpload.files[0];
+    const ticketUrl=await uploadPortalImage(ticketUpload,'ticket');
+    if(ticketUrl){next.ticket_image_url=ticketUrl;uploadedPaths.push(storagePathFromPublicUrl(ticketUrl));}
+    const resultUrl=await uploadPortalImage(resultUpload,'result');
+    if(resultUrl){next.result_image_url=resultUrl;uploadedPaths.push(storagePathFromPublicUrl(resultUrl));}
+
     const {data,error}=await supabaseClient.from('portal_settings').update(next).eq('id',settingsRowId).select().single();
     if(error)throw error;if(!data)throw new Error('No settings row was updated.');
-    applySettings(data);ticketUpload.value='';resultUpload.value='';saveStatus.textContent='Saved successfully. Other visitors should receive the updated settings.';
-  }catch(err){console.error('Save settings failed:',err);saveStatus.textContent='Could not save: '+(err.message||'Unknown error');}
+    applySettings(data);ticketUpload.value='';resultUpload.value='';
+
+    // Delete only replaced files, and only after the database points to the new image.
+    const oldPaths=[];
+    if(ticketFile){const path=storagePathFromPublicUrl(previous.ticket_image_url);if(path)oldPaths.push(path);}
+    if(resultFile){const path=storagePathFromPublicUrl(previous.result_image_url);if(path)oldPaths.push(path);}
+    const uniqueOldPaths=[...new Set(oldPaths.filter(Boolean))].filter(path=>!uploadedPaths.includes(path));
+    if(uniqueOldPaths.length){
+      const {error:deleteError}=await supabaseClient.storage.from('portal-images').remove(uniqueOldPaths);
+      if(deleteError){
+        saveStatus.textContent='New image saved, but Supabase could not delete the previous image: '+deleteError.message;
+      }else{
+        saveStatus.textContent='Saved successfully. Previous image(s) automatically deleted from Supabase Storage.';
+      }
+    }else{
+      saveStatus.textContent='Saved successfully. Other visitors should receive the updated settings.';
+    }
+  }catch(err){
+    // If saving settings failed after upload, remove the newly uploaded files to avoid orphaned objects.
+    const cleanup=uploadedPaths.filter(Boolean);
+    if(cleanup.length){try{await supabaseClient.storage.from('portal-images').remove(cleanup);}catch(cleanupError){console.warn('Could not clean up newly uploaded image(s):',cleanupError);}}
+    console.error('Save settings failed:',err);saveStatus.textContent='Could not save: '+(err.message||'Unknown error');
+  }
   finally{button.disabled=false;button.textContent=oldText;}
 }
 customerForm.addEventListener('submit',(e)=>{e.preventDefault();if(ref.value.trim()!==c.ref){customerError.textContent='Reference code not recognized. Please check and try again.';return;}customerError.textContent='';loginPage.classList.add('hidden');page3.classList.add('hidden');page2.classList.remove('hidden');});
