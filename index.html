@@ -5,15 +5,64 @@
 <title>Lucky Portal</title>
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;color:#172235;background:radial-gradient(ellipse at center,#267c91,#356d65 48%,#667521)}button,input{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:13px 17px;font-weight:700}.top{display:flex;justify-content:space-between;align-items:center;padding:17px 22px;color:white;background:linear-gradient(100deg,#4b5c1b,#205d72,#4c5d1b)}.brand{display:flex;align-items:center;gap:13px}.icon{width:52px;height:52px;border-radius:16px;background:#ffffff20;border:1px solid #ffffff55;display:grid;place-items:center;font-size:28px}.brand strong{font-size:23px}.brand small{display:block;margin-top:5px;color:#e1ebec}.menu{background:#ffffff20;color:white;border:1px solid #ffffff55;font-size:23px}.container{max-width:760px;padding:22px 15px;margin:18px auto}.card{max-width:550px;margin:18px auto;background:#fffffff2;border-radius:32px;padding:clamp(24px,5vw,38px);box-shadow:0 20px 55px #112c2922}.card h1{font-size:38px;margin:5px 0 12px}.lead{font-size:22px;line-height:1.5;color:#77808a;margin:0 0 32px}.field{margin:22px 0}.field label{display:block;font-weight:bold;margin-bottom:12px;color:#414b5a}.field input{width:100%;border:2px solid #e5e8eb;border-radius:22px;padding:19px;font-size:20px}.primary{width:100%;background:linear-gradient(100deg,#ff405e,#ff6800);color:white;font-size:23px;padding:21px;border-radius:22px;box-shadow:0 5px 0 #a92c35}.policy,.notice{font-size:12px;line-height:1.55;text-align:center;color:#66717b;margin:26px 0 0}.backrow{max-width:590px;margin:14px auto 0}.backbtn{background:#ffffffeb;color:#203744;border:1px solid #ffffff80;padding:12px 18px;border-radius:12px;font-weight:700}.ticketbox{min-height:350px;padding:clamp(18px,5vw,38px);display:grid;place-items:center;background:#ffffff20;border:1px solid #ffffff45;border-radius:32px}.ticket{position:relative;width:100%;max-width:590px;cursor:pointer}.ticket img,.resultimg{width:100%;max-height:360px;object-fit:contain;border-radius:16px;background:#fff}.code{position:absolute;right:9%;top:6%;z-index:2;min-width:2.4em;text-align:center;font-size:clamp(25px,6vw,39px);font-weight:900;background:#fffffff0;color:#111;border:2px solid #222;border-radius:5px;padding:2px 9px;cursor:pointer;user-select:none}.code:focus-visible{outline:3px solid #ff6800;outline-offset:3px}.hint{text-align:center;color:white;font-size:14px}.hidden{display:none!important}.win{position:fixed;top:12%;left:50%;transform:translateX(-50%);background:white;color:#12814a;font-size:clamp(23px,6vw,42px);font-weight:900;padding:17px 25px;border-radius:18px;white-space:normal;text-align:center;max-width:95vw;animation:fade 3s forwards;box-shadow:0 12px 40px #0004;z-index:20}@keyframes fade{0%{opacity:0;top:20%}15%,75%{opacity:1;top:10%}100%{opacity:0;top:4%}}
-.win{display:flex;flex-direction:column;gap:5px;align-items:center}
-.win-note{font-size:11px;font-weight:600;letter-spacing:.2px;color:#52616b}
-#starfallLayer{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:18;contain:strict}
-.fall-star,.fall-sparkle{position:absolute;top:-12vh;left:0;display:block;line-height:1;will-change:transform,opacity;user-select:none}
-.fall-star{color:#ffd34f;font-size:var(--star-size,24px);text-shadow:0 0 5px #fff4a8,0 0 12px #ffbd22,0 0 24px #ff9d00;animation:star-drop var(--fall-time,2.7s) cubic-bezier(.18,.62,.42,1) var(--fall-delay,0s) forwards}
-.fall-sparkle{color:#fff8c7;font-size:var(--spark-size,12px);text-shadow:0 0 5px #fff,0 0 13px #ffd34f;animation:sparkle-drop var(--fall-time,2.6s) ease-in var(--fall-delay,0s) forwards}
-@keyframes star-drop{0%{opacity:0;transform:translate3d(0,-5vh,0) rotate(0) scale(.55)}10%{opacity:1}78%{opacity:1}100%{opacity:0;transform:translate3d(var(--drift,30px),112vh,0) rotate(420deg) scale(1.05)}}
-@keyframes sparkle-drop{0%{opacity:0;transform:translate3d(0,-4vh,0) scale(.2) rotate(0)}18%,65%{opacity:1}100%{opacity:0;transform:translate3d(var(--drift,-20px),108vh,0) scale(.9) rotate(220deg)}}
-@media(prefers-reduced-motion:reduce){.win{animation:none;opacity:1}.fall-star,.fall-sparkle{animation:none;display:none}}
+/* Transparent golden star shower: animation only; does not cover the page background. */
+#starfallLayer{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:18;
+  background:transparent;
+  contain:strict;
+}
+.fall-star,.fall-sparkle,.fall-trail{
+  position:absolute;
+  display:block;
+  line-height:1;
+  user-select:none;
+  pointer-events:none;
+  will-change:transform,opacity;
+}
+.fall-star{
+  color:#ffd45a;
+  font-size:var(--star-size,22px);
+  text-shadow:0 0 4px #fff8c9,0 0 10px #ffd34f,0 0 22px #ff9d00;
+  animation:gold-star-fall 3s linear var(--fall-delay,0s) both;
+}
+.fall-sparkle{
+  color:#fff7c2;
+  font-size:var(--spark-size,11px);
+  text-shadow:0 0 5px #fff,0 0 12px #ffcf48;
+  animation:gold-sparkle-fall 3s ease-in var(--fall-delay,0s) both;
+}
+.fall-trail{
+  width:2px;
+  height:var(--trail-height,42px);
+  border-radius:50%;
+  background:linear-gradient(to bottom,#fffbd0,#ffd34f88,transparent);
+  filter:drop-shadow(0 0 5px #ffc83d);
+  animation:gold-trail-fall 3s linear var(--fall-delay,0s) both;
+}
+@keyframes gold-star-fall{
+  0%{opacity:0;transform:translate3d(0,-12vh,0) rotate(0) scale(.35)}
+  10%{opacity:1}
+  75%{opacity:1}
+  100%{opacity:0;transform:translate3d(var(--drift,35px),112vh,0) rotate(360deg) scale(1.05)}
+}
+@keyframes gold-sparkle-fall{
+  0%{opacity:0;transform:translate3d(0,-8vh,0) scale(.2)}
+  15%,68%{opacity:1}
+  100%{opacity:0;transform:translate3d(var(--drift,-20px),110vh,0) scale(.85)}
+}
+@keyframes gold-trail-fall{
+  0%{opacity:0;transform:translateY(-12vh) scaleY(.3)}
+  15%,70%{opacity:.85}
+  100%{opacity:0;transform:translateY(112vh) scaleY(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .fall-star,.fall-sparkle,.fall-trail{display:none;animation:none}
+}
+
 .overlay{position:fixed;inset:0;background:#071321b0;display:grid;place-items:center;padding:14px;z-index:9}.admin{background:white;border-radius:20px;padding:23px;width:min(600px,100%);max-height:92vh;overflow:auto}.admin h2{margin-top:0}.admin label{display:block;font-weight:bold;font-size:14px;margin:13px 0 6px}.admin input{width:100%;padding:12px;border:1px solid #ccd5df;border-radius:9px}.admin .primary{font-size:16px;padding:14px;box-shadow:none}.actions{display:flex;gap:10px;margin-top:15px}.actions button{flex:1}.secondary{background:#edf1f6}.error{color:#b42318;font-size:13px}.section{font-size:12px;color:#687386;letter-spacing:1px;border-bottom:1px solid #e3e8ef;margin-top:22px;padding-bottom:6px}.help{font-size:12px;line-height:1.5;color:#687386}.status{font-size:12px;line-height:1.5;color:#687386;margin-top:12px}@media(max-width:480px){.top{padding:13px}.brand strong{font-size:19px}.brand small{font-size:13px}.container{padding:14px 12px}.card{border-radius:28px}.ticketbox{min-height:280px}}
 </style>
 </head>
@@ -111,37 +160,64 @@ async function saveSettings(e){
 customerForm.addEventListener('submit',(e)=>{e.preventDefault();if(ref.value.trim()!==c.ref){customerError.textContent='Reference code not recognized. Please check and try again.';return;}customerError.textContent='';loginPage.classList.add('hidden');page3.classList.add('hidden');page2.classList.remove('hidden');});
 function backToLogin(){page2.classList.add('hidden');loginPage.classList.remove('hidden');customerError.textContent='';}
 function backToTicket(){page3.classList.add('hidden');page2.classList.remove('hidden');}
+
 let starfallCleanupTimer=null;
 function startStarfall(){
   const layer=document.getElementById('starfallLayer');
   if(!layer)return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+
+  // Clear any previous run so every entry starts from a clean 3-second animation.
   layer.replaceChildren();
-  const makeParticle=(kind)=>{
+  if(starfallCleanupTimer){
+    clearTimeout(starfallCleanupTimer);
+    starfallCleanupTimer=null;
+  }
+
+  const random=(min,max)=>min+Math.random()*(max-min);
+  const addParticle=(kind)=>{
     const particle=document.createElement('span');
-    particle.className=kind==='star'?'fall-star':'fall-sparkle';
-    particle.textContent=kind==='star'?(Math.random()<.28?'✦':'★'):(Math.random()<.5?'✧':'·');
-    particle.style.left=(Math.random()*100).toFixed(2)+'%';
-    particle.style.setProperty('--drift',((Math.random()-.5)*150).toFixed(0)+'px');
-    particle.style.setProperty('--fall-time',(2.45+Math.random()*.42).toFixed(2)+'s');
-    particle.style.setProperty('--fall-delay',(Math.random()*.16).toFixed(2)+'s');
-    if(kind==='star')particle.style.setProperty('--star-size',(17+Math.random()*25).toFixed(0)+'px');
-    else particle.style.setProperty('--spark-size',(7+Math.random()*12).toFixed(0)+'px');
+    particle.className=kind==='star'?'fall-star':kind==='trail'?'fall-trail':'fall-sparkle';
+
+    if(kind==='star'){
+      particle.textContent=Math.random()<.38?'✦':'★';
+      particle.style.setProperty('--star-size',random(13,31).toFixed(0)+'px');
+    }else if(kind==='sparkle'){
+      particle.textContent=Math.random()<.5?'✧':'·';
+      particle.style.setProperty('--spark-size',random(7,17).toFixed(0)+'px');
+    }else{
+      particle.style.setProperty('--trail-height',random(24,76).toFixed(0)+'px');
+    }
+
+    particle.style.left=random(0,100).toFixed(2)+'%';
+    particle.style.top=random(-18,-4).toFixed(1)+'vh';
+    particle.style.setProperty('--drift',random(-85,85).toFixed(0)+'px');
+    particle.style.setProperty('--fall-delay',random(0,.06).toFixed(2)+'s');
     layer.appendChild(particle);
   };
-  for(let i=0;i<48;i++)makeParticle('star');
-  for(let i=0;i<42;i++)makeParticle('sparkle');
-  if(starfallCleanupTimer)clearTimeout(starfallCleanupTimer);
-  starfallCleanupTimer=setTimeout(()=>{layer.replaceChildren();starfallCleanupTimer=null;},3100);
+
+  for(let i=0;i<115;i++)addParticle('star');
+  for(let i=0;i<125;i++)addParticle('sparkle');
+  for(let i=0;i<38;i++)addParticle('trail');
+
+  starfallCleanupTimer=setTimeout(()=>{
+    layer.replaceChildren();
+    starfallCleanupTimer=null;
+  },3100);
 }
+
 function showResult(){
   if(!/^\d{4}$/.test(c.code))return;
-  page2.classList.add('hidden');page3.classList.remove('hidden');
+  page2.classList.add('hidden');
+  page3.classList.remove('hidden');
+
+  // Start the transparent full-screen star shower with the existing message.
   startStarfall();
-  const n=document.createElement('div');n.className='win';
-  const message=document.createElement('span');message.textContent=c.win;
-  const note=document.createElement('small');note.className='win-note';note.textContent='Illustrative demo only · No real prize or entitlement';
-  n.append(message,note);document.body.appendChild(n);
+
+  const n=document.createElement('div');
+  n.className='win';
+  n.textContent=c.win;
+  document.body.appendChild(n);
   setTimeout(()=>n.remove(),3000);
 }
 ticketCode.addEventListener('click',showResult);ticketCode.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showResult();}});
